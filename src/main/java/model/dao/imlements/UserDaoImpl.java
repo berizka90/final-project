@@ -33,9 +33,10 @@ public class UserDaoImpl extends GenericAbstractDao<User> implements UserDao {
     };
 
     public UserDaoImpl(Connection connection) {
-        this.connection = connection;
         super.setMapperToDb(mapperToDb);
         super.setMapperFromDb(mapperFromDb);
+        this.connection = connection;
+
     }
 
 

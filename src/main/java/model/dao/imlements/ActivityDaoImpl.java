@@ -2,75 +2,67 @@ package model.dao.imlements;
 
 import exception.DataNotFoundException;
 import model.dao.ActivityDao;
+import model.dao.GenericAbstractDao;
+import model.dao.Mapper;
 import model.entity.Activity;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
-public class ActivityDaoImpl implements ActivityDao {
-    /**
-     * Calculates total activity number available in DB
-     *
-     * @return count of activity in DB
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
+import static model.dao.DbConstants.*;
+
+
+public class ActivityDaoImpl extends GenericAbstractDao<Activity> implements ActivityDao{
+        private Connection connection;
+
+    private Mapper<Activity, PreparedStatement> mapperToDb = (Activity activity, PreparedStatement ps) -> {
+            ps.setString(1, activity.getName());
+            ps.setString(2, activity.getDescription());
+        };
+
+    private Mapper<ResultSet, Activity> mapperFromDb = (ResultSet set, Activity activity) -> {
+            activity.setIdActivity(set.getInt(ACTIVITY_ID));
+            activity.setName(set.getString(ACTIVITY_NAME));
+            activity.setDescription(set.getString(ACTIVITY_DESCRIPTION));
+        };
+
+    public ActivityDaoImpl(Connection connection) {
+        super.setMapperToDb(mapperToDb);
+        super.setMapperFromDb(mapperFromDb);
+        this.connection = connection;
+    }
+
     @Override
     public Integer calculateActivityNumber() throws DataNotFoundException {
-        return null;
+        return calculateRowCounts(connection,ACTIVITY_TABLE);
     }
 
-    /**
-     * Finds all activity in DB
-     *
-     * @return List of all activities
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
+
     @Override
     public List<Activity> findAllActivityInDB() throws DataNotFoundException {
-        return null;
+        return findAll(connection,Activity.class,SQL_A_SELECT_ALL);
     }
 
-    /**
-     * Finds Activity by name
-     *
-     * @param name - Activity name
-     * @return Activity by name
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
     @Override
     public Activity findActivityByName(String name) throws DataNotFoundException {
-        return null;
+        return findBy(connection, Activity.class, SQL_A_SELECT_BY_NAME,name);
     }
 
-    /**
-     * Adds new activity to DB
-     *
-     * @param activity - activity to add in DB
-     * @return true if operation success and false if fails
-     */
     @Override
     public boolean addActivityToDB(Activity activity) {
-        return false;
+        return addToDB(connection,activity,SQL_A_ADD_NEW);
     }
 
-    /**
-     * Updats activity in DB
-     *
-     * @param activity - activity to update in DB
-     * @return true if operation success and false if fails
-     */
     @Override
     public boolean updateActivityInDB(Activity activity) {
-        return false;
+        return updateInDB(connection,activity,SQL_A_UPDATE_BY_ID,3,activity.getIdActivity());
     }
 
-    /**
-     * Deletes activity from DB
-     *
-     * @param activity - Activity to delete from DB
-     * @return true if operation success and false if fails
-     */
     @Override
     public boolean deleteActivityFromDB(Activity activity) {
-        return false;
+        return deleteFromDB(connection,SQL_A_DELETE_ACTIVITY,activity.getIdActivity());
     }
 }
