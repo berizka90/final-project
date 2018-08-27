@@ -1,6 +1,8 @@
 package model.entity;
 
+
 public class User {
+
     private Integer idUser;
     private String name;
     private String login;
@@ -47,6 +49,29 @@ public class User {
         this.role = role;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this==obj) return true;
+        if (!(obj instanceof User)) return false;
+        User user=(User) obj;
+        return  (this.login.equals(user.login) && (this.password.equals(user.password)));
+    }
+
+    @Override
+    public int hashCode() {
+        int result=login.hashCode();
+        return 31*result + password.hashCode();
+    }
 
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "idUser=" + idUser +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

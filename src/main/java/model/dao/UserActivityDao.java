@@ -11,12 +11,7 @@ import java.util.List;
  */
 
 public interface UserActivityDao {
-    /**
-     * Calculates total userActivity number available in DB
-     * @return count of userActivity in DB
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
-    Integer calculateUserActivityNumber() throws DataNotFoundException;
+
 
     /**
      * Finds all userActivity in DB
@@ -26,13 +21,19 @@ public interface UserActivityDao {
     List<UserActivity> findAllUserActivityInDB() throws DataNotFoundException;
 
     /**
-     * Finds UserActivity by name
-     * @param name - UserActivity name
-     * @return UserActivity by name
+     * Finds UserActivity by userId
+     * @param userId - UserActivity userId
+     * @return UserActivity by userId
      * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
      */
-    UserActivity findUserActivityByName(String name) throws DataNotFoundException;
-
+    UserActivity findUserActivityByUserId(int userId) throws DataNotFoundException;
+    /**
+     * Finds UserActivity by activityId
+     * @param activityId - UserActivity activityId
+     * @return UserActivity by activityId
+     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     */
+    UserActivity findUserActivityByActivityId(int activityId) throws DataNotFoundException;
     /**
      * Adds new userActivity to DB
      * @param userActivity - userActivity to add in DB
