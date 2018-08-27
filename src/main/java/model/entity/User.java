@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String login;
     private String password;
-    private String role;
+    private UserRole role;
 
     public Integer getIdUser() {
         return idUser;
@@ -24,7 +24,7 @@ public class User {
     }
 
     public String getRole() {
-        return role;
+        return role.toString();
     }
 
     public void setIdUser(Integer idUser) {
@@ -43,7 +43,7 @@ public class User {
         this.password = password;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
