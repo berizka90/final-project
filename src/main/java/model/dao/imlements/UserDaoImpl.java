@@ -2,127 +2,86 @@ package model.dao.imlements;
 
 import exception.DataNotFoundException;
 import model.dao.GenericAbstractDao;
+import model.dao.Mapper;
 import model.dao.UserDao;
 import model.entity.User;
 import model.entity.UserRole;
 
+import static model.dao.DbConstants.*;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
-public  class UserDaoImpl extends  GenericAbstractDao <User> implements UserDao {
+public class UserDaoImpl extends GenericAbstractDao<User> implements UserDao {
     private Connection connection;
-    private static String SQL_select_all="SELECT * FROM users; ";
-    private static String SQL_select_byId="SELECT * FROM users WHERE idUser=?;";
-    private static String SQL_select_byName="SELECT * FROM users WHERE name=?;";
-    private static String SQL_select_byRole="SELECT * FROM users WHERE role=?;";
-    private static String SQL_addNew="INSERT INTO mydb.users (name, " +
-            "login, password, role) VALUES (?,?,?,?);";
-    private static String SQL_update_byId="UPDATE mydb.users SET name=?," +
-            " login=?, password=? WHERE idUser=?;";
-    private static String SQL_delete_User="DELETE FROM mydb.users WHERE idUser=?;";
+
+    private Mapper<User, PreparedStatement> mapperToDb = (User user, PreparedStatement ps) -> {
+        ps.setString(1, user.getName());
+        ps.setString(2, user.getLogin());
+        ps.setString(3, user.getPassword());
+        ps.setString(4, user.getRole());
+    };
+
+    private Mapper<ResultSet, User> mapperFromDb = (ResultSet set, User user) -> {
+        user.setIdUser(set.getInt(USERS_ID));
+        user.setName(set.getString(USERS_NAME));
+        user.setLogin(set.getString(USERS_LOGIN));
+        user.setPassword(set.getString(USERS_PASSWORD));
+        user.setRole(UserRole.valueOf(set.getString(USERS_ROLE)));
+    };
+
+    public UserDaoImpl(Connection connection) {
+        this.connection = connection;
+        super.setMapperToDb(mapperToDb);
+        super.setMapperFromDb(mapperFromDb);
+    }
 
 
-    /**
-     * Calculates total users number available in DB
-     *
-     * @return count of users in DB
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
     @Override
     public Integer calculateUsersNumber() throws DataNotFoundException {
-        return null;
+        return calculateRowCounts(connection, USERS_TABLE);
     }
 
-    /**
-     * Finds all users in DB
-     *
-     * @return List of all users
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
+
     @Override
     public List<User> findAllUsersInDB() throws DataNotFoundException {
-        return null;
+        return findAll(connection, User.class, SQL_U_SELECT_ALL);
     }
 
-    /**
-     * Finds users in DB from
-     *
-     * @param first  first row number
-     * @param offset offset
-     * @return List users
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
     @Override
     public List<User> findUsers(Integer first, Integer offset) throws DataNotFoundException {
-        return null;
+        return findAllFromTo(connection, User.class, first, offset, SQL_U_SELECT_ALL);
     }
 
-    /**
-     * Finds all users by user role
-     *
-     * @param role - User`s role
-     * @return List of
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
     @Override
     public List<User> findUserByRole(UserRole role) throws DataNotFoundException {
-        return null;
+        return findAsListBy(connection, User.class, SQL_U_SELECT_BY_ROLE, role.toString());
     }
 
-    /**
-     * Finds user by user id number
-     *
-     * @param id - User`s id number
-     * @return User
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
     @Override
     public User findUserById(Integer id) throws DataNotFoundException {
-        return null;
+        return findBy(connection, User.class, SQL_U_SELECT_BY_ID, id);
     }
 
-    /**
-     * Finds User by name
-     *
-     * @param name - User name
-     * @return User by name
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
-     */
     @Override
     public User findUserByName(String name) throws DataNotFoundException {
-        return null;
+        return findBy(connection, User.class, SQL_U_SELECT_BY_NAME, name);
     }
 
-    /**
-     * Adds new user to DB
-     *
-     * @param user - user to add in DB
-     * @return true if operation success and false if fails
-     */
     @Override
     public boolean addUserToDB(User user) {
-        return false;
+        return addToDB(connection, user, SQL_U_ADD_NEW);
     }
 
-    /**
-     * Updats user in DB
-     *
-     * @param user - User to update in DB
-     * @return true if operation success and false if fails
-     */
     @Override
     public boolean updateUserInDB(User user) {
-        return false;
+        return updateInDB(connection, user, SQL_U_UPDATE_BY_ID, 5, user.getIdUser());
     }
 
-    /**
-     * Deletes user from DB
-     *
-     * @param user - User to delete from DB
-     * @return true if operation success and false if fails
-     */
     @Override
     public boolean deleteUserFromDB(User user) {
-        return false;
+        return deleteFromDB(connection, SQL_U_DELETE_USER, user.getIdUser());
     }
 }
