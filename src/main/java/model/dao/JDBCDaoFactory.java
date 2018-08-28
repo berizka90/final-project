@@ -87,21 +87,18 @@ public class JDBCDaoFactory extends DaoFactory {
    /** get Dao */
     @Override
     public UserDao getUserDao() {
-        return new UserDaoImpl();
+        return new UserDaoImpl(connection);
     }
 
     @Override
     public ActivityDao getActivityDao() {
-        return new ActivityDaoImpl();
+        return new ActivityDaoImpl(connection);
     }
 
     @Override
     public UserActivityDao getUserActivityDao() {
-        return new UserActivityDaoImpl();
+        return new UserActivityDaoImpl(connection);
     }
-
-
-
 
 }
 

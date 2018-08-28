@@ -83,6 +83,7 @@ public class UserDaoImpl extends GenericAbstractDao<User> implements UserDao {
 
     @Override
     public boolean deleteUserFromDB(User user) {
+
         return deleteFromDB(connection, SQL_U_DELETE_USER, user.getIdUser());
     }
 }
