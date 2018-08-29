@@ -27,7 +27,7 @@
     </form>
 </div>
 <footer>
-    <p class="footer">Учебный проект по курсу Java Winter, Киев, 2018</p>
+    <p class="footer"></p>
 </footer>
 </body>
 </html>

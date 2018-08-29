@@ -21,7 +21,7 @@ public class ComandResolver {
         return instance;
     }
     public Comand getComand(HttpServletRequest request){
-        Comand comand=comands.get(request.getParameter("comand"));
+        Comand comand=comands.get(request.getParameter("command"));
         if (comand==null){
             comand=new ComandMissing();
         }
