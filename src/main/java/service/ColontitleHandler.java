@@ -13,7 +13,7 @@ public class ColontitleHandler extends TagSupport{
         try {
             pageContext.getOut().write("<footer>");
             pageContext.getOut().write("<p class='footer'>");
-            pageContext.getOut().write("Учебный проект по курсу Java Winter, Киев, 2018");
+            pageContext.getOut().write("Project Тime Trecking");
             pageContext.getOut().write("</p>");
             pageContext.getOut().write("</footer>");
         } catch(IOException ioe) {
