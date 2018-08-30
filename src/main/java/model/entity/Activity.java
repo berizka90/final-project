@@ -1,8 +1,9 @@
 package model.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Activity {
+public class Activity implements Serializable {
 
     private Integer idActivity;
     private String name;

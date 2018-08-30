@@ -1,7 +1,9 @@
 package model.entity;
 
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private Integer idUser;
     private String name;

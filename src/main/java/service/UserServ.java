@@ -8,6 +8,11 @@ import model.entity.UserRole;
 import java.util.List;
 
 public interface UserServ {
+    /**
+     * Calculates total number of User records in DB
+     * @return total number of User records in DB
+     */
+    Integer calculateUsersNumber();
     /** Find all Users in DB
      * @return list of all users
      * @trows UnknownUserException if unable to retrieve information for certain reasons

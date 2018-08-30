@@ -59,6 +59,7 @@ public abstract class DaoFactory {
      */
 
     public static DaoFactory getDaoFactory() throws NamingException {
+
         if( daoFactory == null ){
             synchronized (DaoFactory.class){
                 if(daoFactory==null){

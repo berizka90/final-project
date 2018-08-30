@@ -1,8 +1,9 @@
 package model.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class UserActivity {
+public class UserActivity implements Serializable {
     public enum Status {
         PENDING,
         ACTIVE,
