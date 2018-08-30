@@ -1,6 +1,7 @@
 package controler;
 
 import comands.Comand;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -16,6 +17,7 @@ public class ControlerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        BasicConfigurator.configure();
         super.init();
     }
 
